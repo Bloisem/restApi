@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +17,8 @@ public class UserEntity {
     private String username;
     @Size(min = 4,max = 3000)
     private String password;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<TodoEntity> todoList;
 
 
     public UserEntity() {
