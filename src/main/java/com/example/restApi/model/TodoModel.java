@@ -1,30 +1,30 @@
-package com.example.restApi.entity;
+package com.example.restApi.model;
 
-import lombok.Data;
+import com.example.restApi.entity.TodoEntity;
 
-import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
-@Data
-@Entity
-@Table(name = "todo")
-public class TodoEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+public class TodoModel {
     private Long id;
     private String title;
     private Boolean completed;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-    public TodoEntity() {
 
+    public static TodoModel toModelTodo(TodoEntity todoEntity){
+        TodoModel model=new TodoModel();
+        model.setId(todoEntity.getId());
+        model.setTitle(todoEntity.getTitle());
+        model.setCompleted(todoEntity.getCompleted());
+        return model;
     }
-    public TodoEntity(String title, Boolean completed, UserEntity user) {
+
+    public TodoModel() {
+    }
+
+    public TodoModel(Long id, String title, Boolean completed) {
+        this.id = id;
         this.title = title;
         this.completed = completed;
-        this.user = user;
     }
 
     public Long getId() {
@@ -50,36 +50,24 @@ public class TodoEntity {
     public void setCompleted(Boolean completed) {
         this.completed = completed;
     }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TodoEntity that = (TodoEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(completed, that.completed) && Objects.equals(user, that.user);
+        TodoModel todoModel = (TodoModel) o;
+        return Objects.equals(id, todoModel.id) && Objects.equals(title, todoModel.title) && Objects.equals(completed, todoModel.completed);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, completed, user);
+        return Objects.hash(id, title, completed);
     }
-
     @Override
     public String toString() {
-        return "TodoEntity{" +
+        return "TodoModel{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", completed=" + completed +
-                ", user=" + user +
                 '}';
     }
 }
-

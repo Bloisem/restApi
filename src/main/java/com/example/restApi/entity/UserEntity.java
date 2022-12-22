@@ -1,14 +1,12 @@
 package com.example.restApi.entity;
 
-import lombok.Data;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Data
+@Table(name = "user")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +17,7 @@ public class UserEntity {
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<TodoEntity> todoList;
+
 
 
     public UserEntity() {
@@ -52,6 +51,13 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public List<TodoEntity> getTodoList() {
+        return todoList;
+    }
+
+    public void setTodoList(List<TodoEntity> todoList) {
+        this.todoList = todoList;
     }
 
     @Override

@@ -27,20 +27,21 @@ public class UserService {
             return user;
         }
     }
-    public List<UserModel> getAll(){
+    public List<UserModel> getAll() throws UserNotFoundException {
         List<UserEntity> userEntityList= (List<UserEntity>) userRepository.findAll();
         List<UserModel> userModelList = new ArrayList<>();
         for(UserEntity userEntity:userEntityList){
-            userModelList.add(UserModel.toModel(Optional.ofNullable(userEntity)));
+            userModelList.add(UserModel.toModel(userEntity));
         }
         return userModelList;
     }
     public UserModel getOneUser(Long id) throws UserNotFoundException {
-        Optional<UserEntity> userEntity= userRepository.findById(id);
-        UserModel userModel= UserModel.toModel(userEntity);
-        return userModel;
+        UserEntity user = userRepository.findById(id).get();
+        if (user == null) {
+            throw new UserNotFoundException("Utente non è trovato!");
+        }
+        return UserModel.toModel(user);
     }
-
 
     public Long deleteOneUser(Long id) throws UserNotFoundException {
         userRepository.deleteById(id);

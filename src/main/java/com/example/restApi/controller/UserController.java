@@ -39,7 +39,7 @@ public class UserController {
         }
     }
 
-    @GetMapping
+   @GetMapping()
     public ResponseEntity getOneUser(@RequestParam Long id) {
         try {
             return ResponseEntity.ok(userService.getOneUser(id));
